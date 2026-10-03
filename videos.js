@@ -7,9 +7,21 @@ window.PORTFOLIO = {
   },
   "videos": [
     {
+      "vimeo": "https://vimeo.com/1108620750/f958ec4edd",
+      "title": "Doctors",
+      "type": "Explainer video",
+      "description": ""
+    },
+    {
       "vimeo": "https://vimeo.com/1108621964/c630a018d6",
       "title": "EvalCard",
       "type": "Explainer video",
+      "description": ""
+    },
+    {
+      "vimeo": "https://vimeo.com/1121050640/70435d1f02",
+      "title": "Med",
+      "type": "Motion video",
       "description": ""
     },
     {
@@ -19,15 +31,9 @@ window.PORTFOLIO = {
       "description": ""
     },
     {
-      "vimeo": "https://vimeo.com/1108620750/f958ec4edd",
-      "title": "Doctors",
+      "vimeo": "https://vimeo.com/1108617476",
+      "title": "ball and square float sfx",
       "type": "Explainer video",
-      "description": ""
-    },
-    {
-      "vimeo": "https://vimeo.com/1121050640/70435d1f02",
-      "title": "Med",
-      "type": "Motion video",
       "description": ""
     }
   ]
