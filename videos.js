@@ -32,8 +32,26 @@ window.PORTFOLIO = {
     },
     {
       "vimeo": "https://vimeo.com/1108617476",
-      "title": "ball and square float sfx",
+      "title": "Ball and square float",
+      "type": "Motion graphics",
+      "description": ""
+    },
+    {
+      "vimeo": "https://vimeo.com/1121039009",
+      "title": "Character explainer",
       "type": "Explainer video",
+      "description": ""
+    },
+    {
+      "vimeo": "https://vimeo.com/1108620128",
+      "title": "Morphing animation",
+      "type": "Motion graphics",
+      "description": ""
+    },
+    {
+      "vimeo": "https://vimeo.com/1112171317",
+      "title": "Logo animation",
+      "type": "Logo animation",
       "description": ""
     }
   ]
