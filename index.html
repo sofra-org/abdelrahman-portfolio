@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Abdelrahman Mohamed | 2D explainer videos and motion graphics for SaaS</title>
 <meta name="description" content="Abdelrahman Mohamed makes 2D explainer videos, product demos and motion graphics for SaaS and tech companies. 92 projects and 78 client reviews on Upwork.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Abdelrahman Mohamed | 2D explainer videos for SaaS">
+<meta property="og:description" content="Animated explainers, product demos and motion graphics for SaaS and tech companies. 92 projects and 78 client reviews on Upwork. Free 10-second sample before you commit.">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#EAF0F8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0D1626" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23FFC83D'/%3E%3Cpath d='M26 20l20 12-20 12z' fill='%230F1E36'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -44,7 +51,7 @@
   --accent-ink: #0D1626;
   --line: #2A3B5A;
 }
-html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 16px); scroll-behavior: smooth; }
+html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 80px); scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 *, *::before, *::after { box-sizing: border-box; }
 body {
@@ -60,8 +67,14 @@ a { color: inherit; }
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 .wrap { width: min(1120px, 100% - 40px); margin-inline: auto; }
 
-/* header */
-.top { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; }
+/* header: stays visible so the hire link is always one tap away */
+.site-head {
+  position: sticky; top: 0; z-index: 10;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border-bottom: 1px solid transparent;
+}
+.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 0; }
 .brand { font-family: var(--display); font-weight: 700; font-size: 1.25rem; text-decoration: none; letter-spacing: -0.01em; }
 .top a.hire { font-weight: 600; font-size: 0.95rem; text-decoration: none; border-bottom: 2px solid var(--mark); padding-bottom: 2px; }
 
@@ -87,6 +100,8 @@ a { color: inherit; }
 .btn.primary:hover { transform: translateY(-2px); }
 .btn.ghost { background: transparent; color: var(--ink); }
 .btn.ghost:hover { background: var(--surface); }
+.reassure { margin: 16px 0 0; font-size: 0.95rem; color: var(--muted); }
+.reassure b { color: var(--ink); font-weight: 600; }
 
 /* reel */
 .reel { padding: 10px 0 8px; }
@@ -95,18 +110,6 @@ a { color: inherit; }
   border-radius: 14px; overflow: hidden; border: 2px solid var(--ink);
 }
 .frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-.frame a.load, .frame button.load {
-  position: absolute; inset: 0; width: 100%; height: 100%; border: 0; cursor: pointer;
-  background: linear-gradient(135deg, #16233B, #0D1626); color: #EAF0F8; font: inherit;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-decoration: none;
-}
-.frame .load .play {
-  width: 64px; height: 64px; border-radius: 50%; background: var(--mark); display: grid; place-items: center;
-}
-.frame .load .play::after {
-  content: ""; border-style: solid; border-width: 11px 0 11px 18px; border-color: transparent transparent transparent #0F1E36; margin-left: 4px;
-}
-.frame .load span.t { font-family: var(--display); font-weight: 500; font-size: 1.1rem; }
 .open { margin: 10px 2px 0; font-size: 0.92rem; color: var(--muted); }
 .open a { color: var(--ink); font-weight: 600; }
 
@@ -159,6 +162,20 @@ ol.steps span { color: var(--muted); }
 .proof div { font-size: 1rem; color: var(--muted); }
 .proof b { display: block; font-family: var(--display); font-size: 2.2rem; color: var(--ink); line-height: 1.1; }
 
+.faq { max-width: 760px; border-top: 2px solid var(--ink); }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary {
+  list-style: none; cursor: pointer; padding: 18px 40px 18px 0; position: relative;
+  font-weight: 600; font-size: 1.08rem;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: "+"; position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
+  font-family: var(--display); font-size: 1.6rem; color: var(--accent); line-height: 1;
+}
+.faq details[open] summary::after { content: "\2212"; }
+.faq details p { margin: 0 0 18px; color: var(--muted); max-width: 62ch; }
+
 .cta { margin: 80px 0 0; padding: 56px 0 64px; border-top: 2px solid var(--ink); }
 .cta h2 { max-width: 18ch; font-size: clamp(2rem, 5vw, 3.4rem); }
 .cta p { color: var(--muted); max-width: 54ch; margin: 0 0 26px; }
@@ -176,11 +193,13 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="top">
+<header class="site-head">
+  <div class="wrap top">
     <a class="brand" href="#top">Abdelrahman Mohamed</a>
     <a class="hire" href="https://www.upwork.com/freelancers/~014d4abe738de09bf2" target="_blank" rel="noopener">Hire me on Upwork</a>
-  </header>
+  </div>
+</header>
+<div class="wrap">
 
   <main id="top">
     <div class="hero">
@@ -190,11 +209,12 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         <a class="btn primary" href="https://www.upwork.com/freelancers/~014d4abe738de09bf2" target="_blank" rel="noopener">Hire me on Upwork</a>
         <a class="btn ghost" href="#reel">Watch the showreel</a>
       </div>
+      <p class="reassure"><b>Not sure yet?</b> I'll make a free 10-second sample so you can see the style before any contract.</p>
     </div>
 
     <div class="reel" id="reel">
       <div class="frame">
-        <iframe src="https://player.vimeo.com/video/1112178535?h=f9014ec193&title=0&byline=0&portrait=0" title="Video" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        <iframe src="https://player.vimeo.com/video/1112178535?h=f9014ec193&title=0&byline=0&portrait=0" title="Showreel 2025" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
       </div>
       <p class="open">Showreel 2025. If the video doesn't play, <a href="https://vimeo.com/1112178535" target="_blank" rel="noopener">open it on Vimeo</a>.</p>
 
@@ -215,25 +235,25 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       <p class="sub">Press play on any video to watch it here.</p>
       <div class="work">
         <article class="piece" id="evalcard">
-          <div class="frame"><iframe src="https://player.vimeo.com/video/1108621964?h=c630a018d6&title=0&byline=0&portrait=0" title="Video" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+          <div class="frame"><iframe src="https://player.vimeo.com/video/1108621964?h=c630a018d6&title=0&byline=0&portrait=0" title="EvalCard explainer video" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
           <h3>EvalCard</h3>
           <p>Explainer video</p>
           <p class="open"><a href="https://vimeo.com/1108621964" target="_blank" rel="noopener">Open on Vimeo</a></p>
         </article>
         <article class="piece" id="firedirect">
-          <div class="frame"><iframe src="https://player.vimeo.com/video/1108621432?h=9b4a007cff&title=0&byline=0&portrait=0" title="Video" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+          <div class="frame"><iframe src="https://player.vimeo.com/video/1108621432?h=9b4a007cff&title=0&byline=0&portrait=0" title="Fire Direct explainer video" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
           <h3>Fire Direct</h3>
           <p>Explainer video</p>
           <p class="open"><a href="https://vimeo.com/1108621432" target="_blank" rel="noopener">Open on Vimeo</a></p>
         </article>
         <article class="piece" id="doctors">
-          <div class="frame"><iframe src="https://player.vimeo.com/video/1108620750?h=f958ec4edd&title=0&byline=0&portrait=0" title="Video" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+          <div class="frame"><iframe src="https://player.vimeo.com/video/1108620750?h=f958ec4edd&title=0&byline=0&portrait=0" title="Doctors explainer video" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
           <h3>Doctors</h3>
           <p>Explainer video</p>
           <p class="open"><a href="https://vimeo.com/1108620750" target="_blank" rel="noopener">Open on Vimeo</a></p>
         </article>
         <article class="piece" id="med">
-          <div class="frame"><iframe src="https://player.vimeo.com/video/1121050640?h=70435d1f02&title=0&byline=0&portrait=0" title="Video" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+          <div class="frame"><iframe src="https://player.vimeo.com/video/1121050640?h=70435d1f02&title=0&byline=0&portrait=0" title="Med motion video" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
           <h3>Med</h3>
           <p>Motion video</p>
           <p class="open"><a href="https://vimeo.com/1121050640" target="_blank" rel="noopener">Open on Vimeo</a></p>
@@ -273,9 +293,40 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       </div>
     </section>
 
+    <section class="block" id="faq">
+      <h2>Questions clients ask first</h2>
+      <p class="sub">If yours isn't here, send it to me on Upwork.</p>
+      <div class="faq">
+        <details>
+          <summary>Can I see your style before I pay?</summary>
+          <p>Yes. Before we start a contract I can make a free 10-second sample. After that, I share a storyboard or style frame and you approve the look before any animating starts.</p>
+        </details>
+        <details>
+          <summary>How long does a video take?</summary>
+          <p>Usually 3 days to 1 week, depending on script length and how detailed the animation is. I'll give you a firm date once I've read the brief.</p>
+        </details>
+        <details>
+          <summary>What do I need to send to get started?</summary>
+          <p>A script, an idea or a reference video is enough. If you have brand colors, logos or screenshots of your product, send those too.</p>
+        </details>
+        <details>
+          <summary>What do I get at the end?</summary>
+          <p>The finished video with animation, sound and music, exported in 16:9, 1:1 or 9:16, so it's ready for your website, YouTube or social feeds.</p>
+        </details>
+        <details>
+          <summary>How do we work together and how do I pay?</summary>
+          <p>Through an Upwork contract. Messages, files and payment all go through Upwork, so you're covered by its payment protection.</p>
+        </details>
+        <details>
+          <summary>Which language do we talk in?</summary>
+          <p>English or Arabic. I speak fluent English and native Arabic.</p>
+        </details>
+      </div>
+    </section>
+
     <section class="cta" id="contact">
       <h2>Send me your script or idea</h2>
-      <p>I'll tell you honestly how I'd approach it, and what it would take to make it.</p>
+      <p>I'll tell you honestly how I'd approach it, and what it would take to make it. If you'd like, I'll start with a free 10-second sample.</p>
       <div class="actions">
         <a class="btn primary" href="https://www.upwork.com/freelancers/~014d4abe738de09bf2" target="_blank" rel="noopener">Hire me on Upwork</a>
       </div>
