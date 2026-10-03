@@ -162,14 +162,17 @@ ol.steps span { color: var(--muted); }
 .score { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; margin: 0 0 22px; }
 .score .stars { color: var(--mark); font-size: 1.9rem; letter-spacing: 2px; line-height: 1; }
 .score p { margin: 0; font-size: 1.1rem; }
-ul.jobs { list-style: none; margin: 0 0 14px; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-ul.jobs li {
-  background: var(--surface); border: 2px solid var(--ink); border-radius: 10px; padding: 12px 14px;
-  display: flex; flex-direction: column; gap: 2px;
+.reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 0 0 16px; }
+.review {
+  margin: 0; background: var(--surface); border: 2px solid var(--ink); border-radius: 12px; padding: 18px;
+  display: flex; flex-direction: column; gap: 12px;
 }
-ul.jobs li::before { content: "★★★★★ 5.0"; color: var(--muted); font-size: 0.82rem; letter-spacing: 1px; }
-ul.jobs strong { font-weight: 600; line-height: 1.3; }
-ul.jobs span { color: var(--muted); font-size: 0.9rem; }
+.review .stars { color: var(--mark); letter-spacing: 2px; font-size: 1.05rem; line-height: 1; }
+.review blockquote { margin: 0; font-size: 1.02rem; line-height: 1.55; flex: 1; }
+.review figcaption { display: flex; flex-direction: column; font-size: 0.92rem; }
+.review figcaption strong { font-weight: 600; }
+.review figcaption span, .review .tags { color: var(--muted); }
+.review .tags { margin: 0; padding-top: 10px; border-top: 1px solid var(--line); font-size: 0.82rem; }
 
 .about { display: grid; grid-template-columns: minmax(200px, 300px) 1fr; gap: 40px; align-items: center; }
 .portrait {
@@ -204,8 +207,11 @@ ul.jobs span { color: var(--muted); font-size: 0.9rem; }
 footer { padding: 22px 0 36px; color: var(--muted); font-size: 0.93rem; border-top: 1px solid var(--line); }
 footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 24px; }
 
+@media (max-width: 1000px) and (min-width: 821px) {
+  .reviews { grid-template-columns: repeat(2, 1fr); }
+}
 @media (max-width: 820px) {
-  .work, .services, ul.jobs { grid-template-columns: 1fr; }
+  .work, .services, .reviews { grid-template-columns: 1fr; }
   .about { grid-template-columns: 1fr; gap: 24px; }
   .portrait { max-width: 280px; }
   ol.steps { grid-template-columns: 1fr; }
@@ -254,20 +260,49 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     </section>
 
     <section class="block" id="reviews">
-      <h2>Rated 5.0 by clients on Upwork</h2>
+      <h2>What clients say on Upwork</h2>
       <div class="score">
         <div class="stars" aria-hidden="true">★★★★★</div>
         <p><b>5.0 out of 5</b> from 78 client reviews, with a <b>100% Job Success</b> score.</p>
       </div>
-      <p class="sub">Recent jobs, each rated 5.0 by the client:</p>
-      <ul class="jobs">
-        <li><strong>Professional corporate video for RiseXLab</strong><span>Sep 2025</span></li>
-        <li><strong>Explainer video</strong><span>Sep 2025</span></li>
-        <li><strong>New feature animation (wizard)</strong><span>Mar 2025</span></li>
-        <li><strong>Animated explainer for OferTodo, fully in Spanish</strong><span>Jan 2025</span></li>
-        <li><strong>2:15 animated explainer video</strong><span>Jan 2025</span></li>
-        <li><strong>Ad for WorkTok</strong><span>Aug 2023 to Jan 2025</span></li>
-      </ul>
+      <div class="reviews">
+        <figure class="review">
+          <div class="stars" aria-label="Rated 5.0 out of 5">★★★★★</div>
+          <blockquote>“Abdelrahman is the best! Super responsive, works fast, executes perfectly, patient, and I could go on. I would 100% recommend if you need any motion design. I’ll definitely use his service again when I have a new project.”</blockquote>
+          <figcaption><strong>New feature animation</strong><span>Upwork client, Mar 2025</span></figcaption>
+          <p class="tags">Clear Communicator · Reliable · Committed to Quality</p>
+        </figure>
+        <figure class="review">
+          <div class="stars" aria-label="Rated 5.0 out of 5">★★★★★</div>
+          <blockquote>“Abdelrahman is a hardworking professional who helped us tremendously. He goes above and beyond to get the job done. Don’t hesitate to hire him—he’s the right person for the job!”</blockquote>
+          <figcaption><strong>Ad for WorkTok</strong><span>Upwork client, Jan 2025</span></figcaption>
+          <p class="tags">Professional · Accountable for Outcomes</p>
+        </figure>
+        <figure class="review">
+          <div class="stars" aria-label="Rated 5.0 out of 5">★★★★★</div>
+          <blockquote>“Working with Abdelrahman was an excellent experience from start to finish. The company video he created was absolutely perfect — professional, creative, and exactly aligned with my vision.”</blockquote>
+          <figcaption><strong>Corporate video for RiseXLab</strong><span>Upwork client, Oct 2025</span></figcaption>
+          <p class="tags">Professional · Clear Communicator · Reliable</p>
+        </figure>
+        <figure class="review">
+          <div class="stars" aria-label="Rated 5.0 out of 5">★★★★★</div>
+          <blockquote>“This was not my first time using his service and definitely will not be the last time! Super communicative and great attention to details.”</blockquote>
+          <figcaption><strong>Motion graphics GIF, returning client</strong><span>Upwork client, Oct 2025</span></figcaption>
+          <p class="tags">Clear Communicator · Detail Oriented</p>
+        </figure>
+        <figure class="review">
+          <div class="stars" aria-label="Rated 5.0 out of 5">★★★★★</div>
+          <blockquote>“This was my 2nd time working with Abdelrahman and won’t be my last! He’s great at what he does and the work he delivers is always on point. Very communicative and professional.”</blockquote>
+          <figcaption><strong>New motion design, returning client</strong><span>Upwork client, Apr 2025</span></figcaption>
+          <p class="tags">Clear Communicator · Professional · Committed to Quality</p>
+        </figure>
+        <figure class="review">
+          <div class="stars" aria-label="Rated 5.0 out of 5">★★★★★</div>
+          <blockquote>“Abdelrahman was great to work with. He met the deadlines. I had a pretty unreasonable timeline that he was able to meet, and the quality was above what I’ve gotten from other animators. He offered suggestions, took directive, and helped produce a solid explainer video for our new training initiative. I will definitely be using him again!”</blockquote>
+          <figcaption><strong>2:15 training explainer</strong><span>Upwork client, Jan 2025</span></figcaption>
+          <p class="tags">Collaborative · Reliable · Committed to Quality · Solution Oriented</p>
+        </figure>
+      </div>
       <p class="open"><a href="https://www.upwork.com/freelancers/~014d4abe738de09bf2" target="_blank" rel="noopener">Read all 78 reviews on Upwork</a></p>
     </section>
 
