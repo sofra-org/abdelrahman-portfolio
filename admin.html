@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Portfolio video manager</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23FFC83D'/%3E%3Cpath d='M26 20l20 12-20 12z' fill='%230F1E36'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #EAF0F8; --surface: #FFFFFF; --ink: #0F1E36; --muted: #4B5B75;
+  --accent: #2B59FF; --accent-ink: #FFFFFF; --mark: #FFC83D; --line: #C3D0E4; --danger: #C62828;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D1626; --surface: #16233B; --ink: #EAF0F8; --muted: #9DB0CC;
+    --accent: #86A2FF; --accent-ink: #0D1626; --line: #2A3B5A; --danger: #FF8A80;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0D1626; --surface: #16233B; --ink: #EAF0F8; --muted: #9DB0CC;
+  --accent: #86A2FF; --accent-ink: #0D1626; --line: #2A3B5A; --danger: #FF8A80;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 1rem; line-height: 1.5; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.wrap { width: min(960px, 100% - 32px); margin-inline: auto; padding: 28px 0 120px; }
+h1 { font-family: var(--display); font-size: clamp(1.7rem, 4vw, 2.3rem); letter-spacing: -0.02em; margin: 0 0 6px; }
+h2 { font-family: var(--display); font-size: 1.3rem; margin: 0 0 12px; }
+p.hint { color: var(--muted); margin: 0 0 24px; max-width: 64ch; }
+.panel { background: var(--surface); border: 2px solid var(--ink); border-radius: 12px; padding: 18px; margin-bottom: 22px; }
+label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+input, textarea {
+  width: 100%; font: inherit; color: var(--ink); background: var(--bg);
+  border: 1.5px solid var(--line); border-radius: 8px; padding: 9px 11px;
+}
+textarea { resize: vertical; min-height: 60px; }
+input:focus, textarea:focus { border-color: var(--accent); outline: none; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.add-row { display: flex; gap: 10px; }
+.add-row input { flex: 1; }
+button {
+  font: inherit; font-weight: 600; cursor: pointer; border-radius: 8px; padding: 9px 16px;
+  border: 2px solid var(--ink); background: transparent; color: var(--ink);
+}
+button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+button:disabled { opacity: .5; cursor: default; }
+.msg { min-height: 1.4em; margin: 8px 0 0; font-size: 0.92rem; color: var(--muted); }
+.msg.err { color: var(--danger); }
+
+ol.list { list-style: none; margin: 0; padding: 0; }
+.item {
+  display: grid; grid-template-columns: 34px 168px 1fr; gap: 14px; align-items: start;
+  background: var(--surface); border: 2px solid var(--ink); border-radius: 12px; padding: 12px; margin-bottom: 12px;
+}
+.item.dragging { opacity: .4; }
+.item.over { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent); }
+.handle { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.num { font-family: var(--display); font-weight: 700; font-size: 1.3rem; color: var(--accent); }
+.grip { cursor: grab; color: var(--muted); font-size: 1.2rem; line-height: 1; user-select: none; padding: 4px; }
+.handle button { padding: 2px 0; width: 30px; font-size: 0.85rem; border-width: 1.5px; }
+.thumb {
+  aspect-ratio: 16 / 9; width: 100%; border-radius: 8px; background: #070d18 center / cover no-repeat;
+  display: grid; place-items: center; color: #9DB0CC; font-size: 0.8rem; text-align: center;
+}
+.fields { display: grid; gap: 8px; min-width: 0; }
+.fields .link { font-size: 0.85rem; color: var(--muted); overflow-wrap: anywhere; }
+.fields .link a { color: inherit; }
+.del { justify-self: start; border-color: var(--danger); color: var(--danger); padding: 5px 12px; font-size: 0.88rem; }
+.empty { color: var(--muted); padding: 18px; text-align: center; border: 2px dashed var(--line); border-radius: 12px; }
+
+.savebar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 5;
+  background: var(--surface); border-top: 2px solid var(--ink);
+}
+.savebar .inner { width: min(960px, 100% - 32px); margin-inline: auto; padding: 12px 0; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.savebar .status { flex: 1; min-width: 180px; font-size: 0.92rem; color: var(--muted); }
+.savebar .status.dirty { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 640px) {
+  .item { grid-template-columns: 34px 1fr; }
+  .thumb { grid-column: 2; }
+  .fields { grid-column: 1 / -1; }
+  .row { grid-template-columns: 1fr; }
+  .add-row { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Portfolio videos</h1>
+  <p class="hint">Add Vimeo videos, drag them into the order you want, then press <b>Save videos.js</b> and save over the file in the portfolio folder. The site shows the videos in exactly this order.</p>
+
+  <div class="panel">
+    <h2>Add a video</h2>
+    <label for="new-link">Vimeo link</label>
+    <div class="add-row">
+      <input id="new-link" type="url" placeholder="https://vimeo.com/123456789/abcdef1234" autocomplete="off">
+      <button class="primary" id="add-btn" type="button">Add to top</button>
+    </div>
+    <p class="msg" id="add-msg">For private or unlisted videos, use the share link that includes the hash after the number.</p>
+  </div>
+
+  <div class="panel">
+    <h2>Showreel</h2>
+    <div class="row">
+      <div><label for="reel-link">Vimeo link</label><input id="reel-link" type="url"></div>
+      <div><label for="reel-title">Title</label><input id="reel-title" type="text"></div>
+    </div>
+  </div>
+
+  <h2 id="list-head">Selected work</h2>
+  <ol class="list" id="list" aria-labelledby="list-head"></ol>
+</div>
+
+<div class="savebar">
+  <div class="inner">
+    <span class="status" id="status">No changes</span>
+    <button type="button" id="copy-btn">Copy file text</button>
+    <button type="button" class="primary" id="save-btn">Save videos.js</button>
+  </div>
+</div>
+
+<script src="videos.js"></script>
+<script>
+(function () {
+  var src = window.PORTFOLIO || {};
+  var state = {
+    showreel: { vimeo: (src.showreel && src.showreel.vimeo) || "", title: (src.showreel && src.showreel.title) || "Showreel" },
+    videos: (src.videos || []).map(function (v) {
+      return { vimeo: v.vimeo || "", title: v.title || "", type: v.type || "", description: v.description || "" };
+    })
+  };
+  var thumbs = {};
+  var dirty = false;
+
+  var list = document.getElementById("list");
+  var statusEl = document.getElementById("status");
+
+  function parseVimeo(link) {
+    var s = String(link || "").trim();
+    var m = s.match(/vimeo\.com\/(?:[^?#]*?\/)?(\d{5,})(?=$|[\/?#])(?:\/([0-9a-f]{6,}))?/i);
+    if (!m) return null;
+    var hash = m[2] || (s.match(/[?&]h=([0-9a-f]+)/i) || [])[1] || "";
+    return { id: m[1], hash: hash, page: "https://vimeo.com/" + m[1] + (hash ? "/" + hash : "") };
+  }
+
+  function markDirty() {
+    dirty = true;
+    statusEl.textContent = "Unsaved changes";
+    statusEl.classList.add("dirty");
+  }
+  function markSaved(text) {
+    dirty = false;
+    statusEl.textContent = text;
+    statusEl.classList.remove("dirty");
+  }
+  window.addEventListener("beforeunload", function (e) {
+    if (dirty) { e.preventDefault(); e.returnValue = ""; }
+  });
+
+  // Vimeo oEmbed gives the title and thumbnail; failures just leave the fields for typing.
+  function lookup(page) {
+    return fetch("https://vimeo.com/api/oembed.json?width=640&url=" + encodeURIComponent(page))
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
+  }
+  function loadThumb(item, box) {
+    var v = parseVimeo(item.vimeo);
+    if (!v) { box.textContent = "Invalid link"; return; }
+    if (thumbs[v.page]) { box.style.backgroundImage = "url('" + thumbs[v.page] + "')"; return; }
+    box.textContent = "Loading…";
+    lookup(v.page).then(function (d) {
+      if (d.thumbnail_url) {
+        thumbs[v.page] = d.thumbnail_url;
+        box.textContent = "";
+        box.style.backgroundImage = "url('" + d.thumbnail_url + "')";
+      } else box.textContent = "No preview";
+    }).catch(function () { box.textContent = "No preview"; });
+  }
+
+  function field(labelText, value, multiline, onInput) {
+    var wrap = document.createElement("div");
+    var id = "f" + Math.random().toString(36).slice(2);
+    var lab = document.createElement("label");
+    lab.htmlFor = id; lab.textContent = labelText;
+    var input = document.createElement(multiline ? "textarea" : "input");
+    input.id = id; input.value = value;
+    if (!multiline) input.type = "text";
+    input.addEventListener("input", function () { onInput(input.value); markDirty(); });
+    wrap.appendChild(lab); wrap.appendChild(input);
+    return wrap;
+  }
+
+  function move(from, to) {
+    if (to < 0 || to >= state.videos.length || from === to) return;
+    var it = state.videos.splice(from, 1)[0];
+    state.videos.splice(to, 0, it);
+    markDirty();
+    render();
+  }
+
+  var dragFrom = null;
+
+  function render() {
+    list.textContent = "";
+    if (!state.videos.length) {
+      var e = document.createElement("li");
+      e.className = "empty";
+      e.textContent = "No videos yet. Paste a Vimeo link above to add one.";
+      list.appendChild(e);
+      return;
+    }
+    state.videos.forEach(function (item, i) {
+      var li = document.createElement("li");
+      li.className = "item";
+
+      var handle = document.createElement("div");
+      handle.className = "handle";
+      var num = document.createElement("span"); num.className = "num"; num.textContent = i + 1;
+      var grip = document.createElement("span"); grip.className = "grip"; grip.textContent = "⠿"; grip.title = "Drag to reorder";
+      var up = document.createElement("button"); up.type = "button"; up.textContent = "↑"; up.disabled = i === 0;
+      up.setAttribute("aria-label", "Move " + (item.title || "video") + " up");
+      var down = document.createElement("button"); down.type = "button"; down.textContent = "↓"; down.disabled = i === state.videos.length - 1;
+      down.setAttribute("aria-label", "Move " + (item.title || "video") + " down");
+      up.onclick = function () { move(i, i - 1); };
+      down.onclick = function () { move(i, i + 1); };
+      handle.append(num, grip, up, down);
+
+      var thumb = document.createElement("div");
+      thumb.className = "thumb";
+      loadThumb(item, thumb);
+
+      var fields = document.createElement("div");
+      fields.className = "fields";
+      var row = document.createElement("div"); row.className = "row";
+      row.append(
+        field("Title", item.title, false, function (v) { item.title = v; }),
+        field("Type (shown under the title)", item.type, false, function (v) { item.type = v; })
+      );
+      fields.appendChild(row);
+      fields.appendChild(field("Description (optional: client, goal, result)", item.description, true, function (v) { item.description = v; }));
+      var linkP = document.createElement("div"); linkP.className = "link";
+      var a = document.createElement("a"); a.href = item.vimeo; a.target = "_blank"; a.rel = "noopener"; a.textContent = item.vimeo;
+      linkP.appendChild(a);
+      fields.appendChild(linkP);
+      var del = document.createElement("button");
+      del.type = "button"; del.className = "del"; del.textContent = "Remove";
+      del.onclick = function () {
+        if (confirm("Remove \"" + (item.title || "this video") + "\" from the site?")) {
+          state.videos.splice(i, 1); markDirty(); render();
+        }
+      };
+      fields.appendChild(del);
+
+      li.append(handle, thumb, fields);
+
+      // Drag starts only from the grip so text fields stay selectable.
+      grip.addEventListener("mousedown", function () { li.draggable = true; });
+      grip.addEventListener("touchstart", function () { li.draggable = true; }, { passive: true });
+      li.addEventListener("dragstart", function (ev) { dragFrom = i; li.classList.add("dragging"); ev.dataTransfer.effectAllowed = "move"; ev.dataTransfer.setData("text/plain", String(i)); });
+      li.addEventListener("dragend", function () { li.draggable = false; li.classList.remove("dragging"); dragFrom = null; });
+      li.addEventListener("dragover", function (ev) { if (dragFrom === null) return; ev.preventDefault(); li.classList.add("over"); });
+      li.addEventListener("dragleave", function () { li.classList.remove("over"); });
+      li.addEventListener("drop", function (ev) { ev.preventDefault(); li.classList.remove("over"); if (dragFrom !== null) move(dragFrom, i); });
+
+      list.appendChild(li);
+    });
+  }
+
+  // showreel fields
+  var reelLink = document.getElementById("reel-link");
+  var reelTitle = document.getElementById("reel-title");
+  reelLink.value = state.showreel.vimeo;
+  reelTitle.value = state.showreel.title;
+  reelLink.addEventListener("input", function () { state.showreel.vimeo = reelLink.value.trim(); markDirty(); });
+  reelTitle.addEventListener("input", function () { state.showreel.title = reelTitle.value; markDirty(); });
+
+  // add
+  var newLink = document.getElementById("new-link");
+  var addBtn = document.getElementById("add-btn");
+  var addMsg = document.getElementById("add-msg");
+  function say(text, err) { addMsg.textContent = text; addMsg.classList.toggle("err", !!err); }
+
+  function add() {
+    var v = parseVimeo(newLink.value);
+    if (!v) { say("That doesn't look like a Vimeo link. It should look like vimeo.com/123456789.", true); return; }
+    if (state.videos.some(function (x) { var p = parseVimeo(x.vimeo); return p && p.id === v.id; })) {
+      say("That video is already in the list.", true); return;
+    }
+    addBtn.disabled = true;
+    say("Looking up the video on Vimeo…");
+    var item = { vimeo: v.page, title: "", type: "Explainer video", description: "" };
+    lookup(v.page).then(function (d) {
+      item.title = d.title || "";
+      if (d.thumbnail_url) thumbs[v.page] = d.thumbnail_url;
+      say("Added \"" + (item.title || "video") + "\". Check the title and type, then save.");
+    }).catch(function () {
+      say("Added. Vimeo didn't share the details, so type the title yourself.");
+    }).then(function () {
+      state.videos.unshift(item);
+      newLink.value = "";
+      addBtn.disabled = false;
+      markDirty();
+      render();
+      var first = list.querySelector("input");
+      if (first) first.focus();
+    });
+  }
+  addBtn.addEventListener("click", add);
+  newLink.addEventListener("keydown", function (e) { if (e.key === "Enter") add(); });
+
+  // output
+  function fileText() {
+    var out = {
+      showreel: { vimeo: state.showreel.vimeo, title: state.showreel.title },
+      videos: state.videos.map(function (v) {
+        return { vimeo: v.vimeo, title: v.title.trim(), type: v.type.trim(), description: v.description.trim() };
+      })
+    };
+    return "// Portfolio videos. The order here is the order on the site.\n" +
+      "// Edit by hand, or open admin.html in a browser to add and reorder videos.\n" +
+      "window.PORTFOLIO = " + JSON.stringify(out, null, 2) + ";\n";
+  }
+
+  document.getElementById("save-btn").addEventListener("click", function () {
+    var text = fileText();
+    if (window.showSaveFilePicker) {
+      window.showSaveFilePicker({
+        suggestedName: "videos.js",
+        types: [{ description: "JavaScript", accept: { "text/javascript": [".js"] } }]
+      }).then(function (handle) {
+        return handle.createWritable().then(function (w) {
+          return w.write(text).then(function () { return w.close(); });
+        }).then(function () { markSaved("Saved " + handle.name + ". Reload the site to see it."); });
+      }).catch(function (err) {
+        if (err && err.name !== "AbortError") alert("Couldn't save: " + err.message);
+      });
+    } else {
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([text], { type: "text/javascript" }));
+      a.download = "videos.js";
+      document.body.appendChild(a); a.click(); a.remove();
+      markSaved("Downloaded videos.js. Move it into the portfolio folder, replacing the old one.");
+    }
+  });
+
+  document.getElementById("copy-btn").addEventListener("click", function () {
+    navigator.clipboard.writeText(fileText()).then(function () {
+      statusEl.textContent = "Copied. Paste it over everything in videos.js.";
+    }, function () { alert("Couldn't copy. Use Save videos.js instead."); });
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
