@@ -113,25 +113,52 @@ a { color: inherit; }
 .open { margin: 10px 2px 0; font-size: 0.92rem; color: var(--muted); }
 .open a { color: var(--ink); font-weight: 600; }
 
-/* timeline: navigation to each piece of work */
-.timeline { margin-top: 18px; }
-.timeline .label { font-size: 0.92rem; color: var(--muted); margin: 0 0 8px; }
-.ruler {
-  height: 14px; border-top: 2px solid var(--ink);
-  background: repeating-linear-gradient(to right, var(--ink) 0 1px, transparent 1px 24px) top / 100% 8px no-repeat;
-  position: relative;
+/* timeline: an editing-style clip track that jumps to each piece of work */
+.timeline { margin-top: 22px; }
+.tl-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 6px; }
+.timeline .label { font-size: 0.92rem; color: var(--muted); margin: 0; }
+.tl-nav { display: flex; gap: 8px; }
+.tl-nav button {
+  width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--ink); background: var(--surface);
+  color: var(--ink); font: inherit; font-size: 1.05rem; line-height: 1; cursor: pointer; display: grid; place-items: center;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease;
 }
-.ruler::before {
-  content: ""; position: absolute; left: 0; top: -8px; width: 14px; height: 14px; background: var(--mark);
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
+.tl-nav button:hover:not(:disabled) { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.tl-nav button:disabled { opacity: .3; cursor: default; }
+.strip {
+  overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity;
+  scrollbar-width: thin; scrollbar-color: var(--line) transparent; padding: 8px 0 10px;
 }
-.track { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; margin-top: 6px; }
-.track a {
-  display: block; text-decoration: none; background: var(--surface); border: 2px solid var(--ink);
-  border-radius: 8px; padding: 10px 12px; font-weight: 600; font-size: 0.95rem; line-height: 1.25;
-  transition: background-color .15s ease;
+.lane {
+  position: relative; display: flex; gap: 12px; width: max-content; padding-top: 20px;
+  background:
+    linear-gradient(var(--ink), var(--ink)) top / 100% 2px no-repeat,
+    repeating-linear-gradient(to right, var(--ink) 0 1px, transparent 1px 24px) 0 2px / 100% 7px no-repeat;
 }
-.track a:hover { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.playhead {
+  position: absolute; top: -7px; left: 0; width: 14px; height: 14px; background: var(--mark);
+  clip-path: polygon(0 0, 100% 0, 50% 100%); pointer-events: none;
+  transform: translateX(var(--x, 0px)); transition: transform .3s cubic-bezier(.2, .8, .2, 1);
+}
+.clip { flex: 0 0 224px; scroll-snap-align: start; text-decoration: none; color: inherit; display: block; }
+.clip .thumb {
+  position: relative; display: block; aspect-ratio: 16 / 9; border-radius: 8px; overflow: hidden;
+  border: 2px solid var(--ink); background: #16233B center / cover no-repeat;
+  transition: border-color .15s ease, transform .15s ease;
+}
+.clip .tc {
+  position: absolute; right: 6px; bottom: 6px; padding: 2px 6px; border-radius: 4px;
+  background: rgba(7, 13, 24, .85); color: #EAF0F8; font-size: 0.75rem; font-weight: 600; font-variant-numeric: tabular-nums;
+}
+.clip .tc:empty { display: none; }
+.clip .name { display: block; margin-top: 8px; font-weight: 600; font-size: 0.95rem; line-height: 1.25; }
+.clip .kind { display: block; font-size: 0.82rem; color: var(--muted); }
+.clip:hover .thumb, .clip:focus-visible .thumb { border-color: var(--accent); transform: translateY(-3px); }
+.clip:focus-visible { outline: none; }
+.clip:focus-visible .thumb { outline: 3px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .playhead, .clip .thumb { transition: none; }
+}
 
 /* sections */
 section.block { padding: 72px 0 8px; }
@@ -215,7 +242,8 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
   .about { grid-template-columns: 1fr; gap: 24px; }
   .portrait { max-width: 280px; }
   ol.steps { grid-template-columns: 1fr; }
-  .track { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+  .clip { flex-basis: 172px; }
+  .tl-nav { display: none; }
   .hero h1 { max-width: 12ch; }
   section.block { padding-top: 56px; }
 }
@@ -246,9 +274,16 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       <p class="open" id="showreel-caption"></p>
 
       <nav class="timeline" id="timeline" aria-label="Jump to a project">
-        <p class="label">Jump to a project</p>
-        <div class="ruler" aria-hidden="true"></div>
-        <div class="track" id="track"></div>
+        <div class="tl-head">
+          <p class="label">Jump to a project</p>
+          <div class="tl-nav" id="tl-nav">
+            <button type="button" id="tl-prev" aria-label="Scroll projects left">&#8592;</button>
+            <button type="button" id="tl-next" aria-label="Scroll projects right">&#8594;</button>
+          </div>
+        </div>
+        <div class="strip" id="strip">
+          <div class="lane" id="lane"><span class="playhead" id="playhead" aria-hidden="true"></span></div>
+        </div>
       </nav>
     </div>
 
@@ -457,7 +492,27 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   // work grid and jump links, in the order listed in videos.js
   var grid = document.getElementById("work-grid");
-  var track = document.getElementById("track");
+  var lane = document.getElementById("lane");
+  var playhead = document.getElementById("playhead");
+
+  function timecode(sec) {
+    var m = Math.floor(sec / 60), r = Math.round(sec % 60);
+    return (m < 10 ? "0" : "") + m + ":" + (r < 10 ? "0" : "") + r;
+  }
+  function movePlayhead(clip) {
+    playhead.style.setProperty("--x", (clip.offsetLeft + clip.offsetWidth / 2 - 7) + "px");
+  }
+  // Vimeo oEmbed supplies the thumbnail and duration for each clip.
+  function fillClip(v, thumb, tc) {
+    fetch("https://vimeo.com/api/oembed.json?width=480&url=" + encodeURIComponent(v.page))
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d) return;
+        if (d.thumbnail_url) thumb.style.backgroundImage = 'url("' + d.thumbnail_url.replace(/"/g, "%22") + '")';
+        if (d.duration) tc.textContent = timecode(d.duration);
+      })
+      .catch(function () {});
+  }
   var count = 0;
   (data.videos || []).forEach(function (item) {
     var v = parseVimeo(item.vimeo);
@@ -478,12 +533,45 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     piece.appendChild(open);
     grid.appendChild(piece);
 
-    track.appendChild(el("a", { href: "#" + id }, title));
+    var clip = el("a", { "class": "clip", href: "#" + id });
+    var thumb = el("span", { "class": "thumb" });
+    var tc = el("span", { "class": "tc" });
+    thumb.appendChild(tc);
+    clip.appendChild(thumb);
+    clip.appendChild(el("span", { "class": "name" }, title));
+    if (item.type) clip.appendChild(el("span", { "class": "kind" }, item.type));
+    clip.addEventListener("mouseenter", function () { movePlayhead(clip); });
+    clip.addEventListener("focus", function () { movePlayhead(clip); });
+    lane.appendChild(clip);
+    fillClip(v, thumb, tc);
   });
 
   if (!count) {
     document.getElementById("work").hidden = true;
     document.getElementById("timeline").hidden = true;
+  } else {
+    var first = lane.querySelector(".clip");
+    if (first) movePlayhead(first);
+
+    // arrow buttons scroll the strip; they hide when every clip already fits
+    var strip = document.getElementById("strip");
+    var nav = document.getElementById("tl-nav");
+    var prev = document.getElementById("tl-prev");
+    var next = document.getElementById("tl-next");
+    function updateNav() {
+      var max = strip.scrollWidth - strip.clientWidth;
+      nav.style.visibility = max > 1 ? "visible" : "hidden";
+      prev.disabled = strip.scrollLeft <= 1;
+      next.disabled = strip.scrollLeft >= max - 1;
+    }
+    function step(dir) {
+      strip.scrollBy({ left: dir * strip.clientWidth * 0.8, behavior: "smooth" });
+    }
+    prev.addEventListener("click", function () { step(-1); });
+    next.addEventListener("click", function () { step(1); });
+    strip.addEventListener("scroll", updateNav, { passive: true });
+    window.addEventListener("resize", updateNav);
+    updateNav();
   }
 })();
 </script>
