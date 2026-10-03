@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Abdelrahman Mohamed | 2D explainer videos and motion graphics for SaaS</title>
+<meta name="description" content="Abdelrahman Mohamed makes 2D explainer videos, product demos and motion graphics for SaaS and tech companies. 92 projects and 78 client reviews on Upwork.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #EAF0F8;
+  --surface: #FFFFFF;
+  --ink: #0F1E36;
+  --muted: #4B5B75;
+  --accent: #2B59FF;
+  --accent-ink: #FFFFFF;
+  --mark: #FFC83D;
+  --line: #C3D0E4;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D1626;
+    --surface: #16233B;
+    --ink: #EAF0F8;
+    --muted: #9DB0CC;
+    --accent: #86A2FF;
+    --accent-ink: #0D1626;
+    --line: #2A3B5A;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0D1626;
+  --surface: #16233B;
+  --ink: #EAF0F8;
+  --muted: #9DB0CC;
+  --accent: #86A2FF;
+  --accent-ink: #0D1626;
+  --line: #2A3B5A;
+}
+html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 16px); scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.wrap { width: min(1120px, 100% - 40px); margin-inline: auto; }
+
+/* header */
+.top { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; }
+.brand { font-family: var(--display); font-weight: 700; font-size: 1.25rem; text-decoration: none; letter-spacing: -0.01em; }
+.top a.hire { font-weight: 600; font-size: 0.95rem; text-decoration: none; border-bottom: 2px solid var(--mark); padding-bottom: 2px; }
+
+/* hero */
+.hero { padding: 36px 0 28px; }
+.hero h1 {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(2.3rem, 6.4vw, 4.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  margin: 0 0 22px;
+  max-width: 15ch;
+}
+.hero p.lede { font-size: 1.2rem; color: var(--muted); max-width: 56ch; margin: 0 0 28px; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  display: inline-block; text-decoration: none; font-weight: 600; font-size: 1rem;
+  padding: 14px 24px; border-radius: 10px; border: 2px solid var(--ink);
+  transition: transform .15s ease, background-color .15s ease;
+}
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.primary:hover { transform: translateY(-2px); }
+.btn.ghost { background: transparent; color: var(--ink); }
+.btn.ghost:hover { background: var(--surface); }
+
+/* reel */
+.reel { padding: 10px 0 8px; }
+.frame {
+  position: relative; width: 100%; aspect-ratio: 16 / 9; background: #070d18;
+  border-radius: 14px; overflow: hidden; border: 2px solid var(--ink);
+}
+.frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.frame a.load, .frame button.load {
+  position: absolute; inset: 0; width: 100%; height: 100%; border: 0; cursor: pointer;
+  background: linear-gradient(135deg, #16233B, #0D1626); color: #EAF0F8; font: inherit;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-decoration: none;
+}
+.frame .load .play {
+  width: 64px; height: 64px; border-radius: 50%; background: var(--mark); display: grid; place-items: center;
+}
+.frame .load .play::after {
+  content: ""; border-style: solid; border-width: 11px 0 11px 18px; border-color: transparent transparent transparent #0F1E36; margin-left: 4px;
+}
+.frame .load span.t { font-family: var(--display); font-weight: 500; font-size: 1.1rem; }
+.open { margin: 10px 2px 0; font-size: 0.92rem; color: var(--muted); }
+.open a { color: var(--ink); font-weight: 600; }
+
+/* timeline: navigation to each piece of work */
+.timeline { margin-top: 18px; }
+.timeline .label { font-size: 0.92rem; color: var(--muted); margin: 0 0 8px; }
+.ruler {
+  height: 14px; border-top: 2px solid var(--ink);
+  background: repeating-linear-gradient(to right, var(--ink) 0 1px, transparent 1px 24px) top / 100% 8px no-repeat;
+  position: relative;
+}
+.ruler::before {
+  content: ""; position: absolute; left: 0; top: -8px; width: 14px; height: 14px; background: var(--mark);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+.track { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 6px; }
+.track a {
+  display: block; text-decoration: none; background: var(--surface); border: 2px solid var(--ink);
+  border-radius: 8px; padding: 10px 12px; font-weight: 600; font-size: 0.95rem; line-height: 1.25;
+  transition: background-color .15s ease;
+}
+.track a:hover { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
+/* sections */
+section.block { padding: 72px 0 8px; }
+h2 {
+  font-family: var(--display); font-weight: 700; font-size: clamp(1.7rem, 3.8vw, 2.5rem);
+  letter-spacing: -0.02em; line-height: 1.1; margin: 0 0 12px;
+}
+p.sub { color: var(--muted); max-width: 58ch; margin: 0 0 30px; }
+
+.work { display: grid; grid-template-columns: repeat(2, 1fr); gap: 34px 26px; }
+.piece h3 { font-family: var(--display); font-weight: 500; font-size: 1.3rem; margin: 14px 0 2px; letter-spacing: -0.01em; }
+.piece p { margin: 0; color: var(--muted); font-size: 0.97rem; }
+.piece .open { margin-top: 4px; }
+
+.services { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 40px; margin: 0; padding: 0; list-style: none; }
+.services li { padding: 18px 0 18px 18px; border-left: 4px solid var(--mark); margin-bottom: 18px; }
+.services strong { display: block; font-family: var(--display); font-size: 1.2rem; font-weight: 500; margin-bottom: 4px; }
+.services span { color: var(--muted); }
+
+ol.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; counter-reset: s; }
+ol.steps li { counter-increment: s; border-top: 2px solid var(--ink); padding-top: 14px; }
+ol.steps li::before { content: counter(s); font-family: var(--display); font-weight: 700; font-size: 2rem; color: var(--accent); display: block; line-height: 1; margin-bottom: 8px; }
+ol.steps strong { display: block; font-size: 1.1rem; margin-bottom: 4px; }
+ol.steps span { color: var(--muted); }
+.note { margin-top: 26px; padding: 16px 18px; background: var(--surface); border: 2px solid var(--ink); border-radius: 10px; max-width: 62ch; }
+
+.proof { display: flex; flex-wrap: wrap; gap: 14px 44px; margin-top: 8px; }
+.proof div { font-size: 1rem; color: var(--muted); }
+.proof b { display: block; font-family: var(--display); font-size: 2.2rem; color: var(--ink); line-height: 1.1; }
+
+.cta { margin: 80px 0 0; padding: 56px 0 64px; border-top: 2px solid var(--ink); }
+.cta h2 { max-width: 18ch; font-size: clamp(2rem, 5vw, 3.4rem); }
+.cta p { color: var(--muted); max-width: 54ch; margin: 0 0 26px; }
+
+footer { padding: 22px 0 36px; color: var(--muted); font-size: 0.93rem; border-top: 1px solid var(--line); }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 24px; }
+
+@media (max-width: 820px) {
+  .work, .services { grid-template-columns: 1fr; }
+  ol.steps { grid-template-columns: 1fr; }
+  .track { grid-template-columns: repeat(2, 1fr); }
+  .hero h1 { max-width: 12ch; }
+  section.block { padding-top: 56px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="#top">Abdelrahman Mohamed</a>
+    <a class="hire" href="https://www.upwork.com/freelancers/~014d4abe738de09bf2" target="_blank" rel="noopener">Hire me on Upwork</a>
+  </header>
+
+  <main id="top">
+    <div class="hero">
+      <h1>2D explainer videos for software people can follow</h1>
+      <p class="lede">I'm Abdelrahman. I make animated explainers, product demos and motion graphics for SaaS and tech companies. 92 projects and 78 client reviews on Upwork, and many clients come back for the next video.</p>
+      <div class="actions">
+        <a class="btn primary" href="https://www.upwork.com/freelancers/~014d4abe738de09bf2" target="_blank" rel="noopener">Hire me on Upwork</a>
+        <a class="btn ghost" href="#reel">Watch the showreel</a>
+      </div>
+    </div>
+
+    <div class="reel" id="reel">
+      <div class="frame">
+        <iframe src="https://player.vimeo.com/video/1112178535?h=f9014ec193&title=0&byline=0&portrait=0" title="Video" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="open">Showreel 2025. If the video doesn't play, <a href="https://vimeo.com/1112178535" target="_blank" rel="noopener">open it on Vimeo</a>.</p>
+
+      <nav class="timeline" aria-label="Jump to a project">
+        <p class="label">Jump to a project</p>
+        <div class="ruler" aria-hidden="true"></div>
+        <div class="track">
+          <a href="#evalcard">EvalCard</a>
+          <a href="#firedirect">Fire Direct</a>
+          <a href="#doctors">Doctors</a>
+          <a href="#med">Med</a>
+        </div>
+      </nav>
+    </div>
+
+    <section class="block" id="work">
+      <h2>Selected work</h2>
+      <p class="sub">Press play on any video to watch it here.</p>
+      <div class="work">
+        <article class="piece" id="evalcard">
+          <div class="frame"><iframe src="https://player.vimeo.com/video/1108621964?h=c630a018d6&title=0&byline=0&portrait=0" title="Video" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+          <h3>EvalCard</h3>
+          <p>Explainer video</p>
+          <p class="open"><a href="https://vimeo.com/1108621964" target="_blank" rel="noopener">Open on Vimeo</a></p>
+        </article>
+        <article class="piece" id="firedirect">
+          <div class="frame"><iframe src="https://player.vimeo.com/video/1108621432?h=9b4a007cff&title=0&byline=0&portrait=0" title="Video" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+          <h3>Fire Direct</h3>
+          <p>Explainer video</p>
+          <p class="open"><a href="https://vimeo.com/1108621432" target="_blank" rel="noopener">Open on Vimeo</a></p>
+        </article>
+        <article class="piece" id="doctors">
+          <div class="frame"><iframe src="https://player.vimeo.com/video/1108620750?h=f958ec4edd&title=0&byline=0&portrait=0" title="Video" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+          <h3>Doctors</h3>
+          <p>Explainer video</p>
+          <p class="open"><a href="https://vimeo.com/1108620750" target="_blank" rel="noopener">Open on Vimeo</a></p>
+        </article>
+        <article class="piece" id="med">
+          <div class="frame"><iframe src="https://player.vimeo.com/video/1121050640?h=70435d1f02&title=0&byline=0&portrait=0" title="Video" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+          <h3>Med</h3>
+          <p>Motion video</p>
+          <p class="open"><a href="https://vimeo.com/1121050640" target="_blank" rel="noopener">Open on Vimeo</a></p>
+        </article>
+      </div>
+    </section>
+
+    <section class="block" id="services">
+      <h2>What I make</h2>
+      <p class="sub">Animation for products, services and startups, delivered in the formats you publish in.</p>
+      <ul class="services">
+        <li><strong>Animated explainer videos</strong><span>A script or an idea becomes a clear 2D video that shows what your product does and why it matters.</span></li>
+        <li><strong>Product demo videos</strong><span>Your interface and key features animated step by step, so a viewer sees how a feature solves a problem.</span></li>
+        <li><strong>Motion graphics for ads and landing pages</strong><span>Short, polished animation for social ads, website headers and campaigns.</span></li>
+        <li><strong>Character animation and illustration</strong><span>Custom characters and illustrations that match your brand, drawn and animated in one pipeline.</span></li>
+      </ul>
+    </section>
+
+    <section class="block" id="process">
+      <h2>How a project runs</h2>
+      <p class="sub">Delivery usually takes 3 days to 1 week, depending on script length and detail.</p>
+      <ol class="steps">
+        <li><strong>You send the brief</strong><span>A script, an idea or a reference video is enough to start.</span></li>
+        <li><strong>We agree on the look</strong><span>I share a storyboard or style frame first, so you approve the style before any animating.</span></li>
+        <li><strong>I animate and deliver</strong><span>Animation, sound and music, exported in 16:9, 1:1 or 9:16.</span></li>
+      </ol>
+      <p class="note">Before we start a contract, I can make a free 10-second sample so you can see the style first.</p>
+    </section>
+
+    <section class="block" id="about">
+      <h2>About</h2>
+      <p class="sub">I'm a motion designer based in Cairo, Egypt. I work in After Effects, Illustrator, Premiere Pro, Photoshop and Audition. I speak fluent English and native Arabic.</p>
+      <div class="proof">
+        <div><b>92</b>projects completed on Upwork</div>
+        <div><b>78</b>client reviews</div>
+        <div><b>30+</b>hours a week available</div>
+      </div>
+    </section>
+
+    <section class="cta" id="contact">
+      <h2>Send me your script or idea</h2>
+      <p>I'll tell you honestly how I'd approach it, and what it would take to make it.</p>
+      <div class="actions">
+        <a class="btn primary" href="https://www.upwork.com/freelancers/~014d4abe738de09bf2" target="_blank" rel="noopener">Hire me on Upwork</a>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>Abdelrahman Mohamed, Cairo, Egypt.</span>
+    <span>2D explainers, product demos and motion graphics.</span>
+  </div>
+</footer>
+
+</body>
+</html>
