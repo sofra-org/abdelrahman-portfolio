@@ -13,15 +13,21 @@ window.PORTFOLIO = {
       "description": ""
     },
     {
-      "vimeo": "https://vimeo.com/1108621964/c630a018d6",
-      "title": "EvalCard",
+      "vimeo": "https://vimeo.com/1121050640/70435d1f02",
+      "title": "Med",
+      "type": "Motion video",
+      "description": ""
+    },
+    {
+      "vimeo": "https://vimeo.com/1121039009",
+      "title": "Character explainer",
       "type": "Explainer video",
       "description": ""
     },
     {
-      "vimeo": "https://vimeo.com/1121050640/70435d1f02",
-      "title": "Med",
-      "type": "Motion video",
+      "vimeo": "https://vimeo.com/1108621964/c630a018d6",
+      "title": "EvalCard",
+      "type": "Explainer video",
       "description": ""
     },
     {
@@ -34,12 +40,6 @@ window.PORTFOLIO = {
       "vimeo": "https://vimeo.com/1108617476",
       "title": "Ball and square float",
       "type": "Motion graphics",
-      "description": ""
-    },
-    {
-      "vimeo": "https://vimeo.com/1121039009",
-      "title": "Character explainer",
-      "type": "Explainer video",
       "description": ""
     },
     {
